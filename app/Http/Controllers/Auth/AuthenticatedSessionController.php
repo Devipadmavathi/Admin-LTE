@@ -28,8 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Redirect to Notes page after login
-        return redirect()->intended('/notes');
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
