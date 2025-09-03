@@ -1,9 +1,15 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-  <a href="{{ '/index.html' | prepend: site.baseurl }}" class="brand-link logo-switch">
-    <img src="{{ '/assets/img/logo-xs.png' | prepend: site.baseurl }}" alt="AdminLTE Docs Logo Small" class="brand-image-xl logo-xs">
-    <img src="{{ '/assets/img/logo-xl.png' | prepend: site.baseurl }}" alt="AdminLTE Docs Logo Large" class="brand-image-xs logo-xl" style="left: 12px">
+  <!-- Brand Logo -->
+  <a href="{{ route('dashboard') }}" class="brand-link logo-switch">
+    <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}"
+         alt="Logo Small" class="brand-image-xl logo-xs">
+    <img src="{{ asset('adminlte/dist/img/AdminLTEFull.png') }}"
+         alt="Logo Large" class="brand-image-xs logo-xl" style="left: 12px">
   </a>
+
+  <!-- Sidebar -->
   <div class="sidebar">
+    <!-- SidebarSearch Form -->
     <div class="form-inline mt-2">
       <div class="input-group" data-widget="sidebar-search">
         <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
@@ -14,47 +20,59 @@
         </div>
       </div>
     </div>
+
+    <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu">
-       {% for item in site.navigation -%}
-          {%- assign subitem_active = 'false' -%}
-          {%- for subitem in item.subitems -%}
-            {%- assign subitem_url = '/' | append: subitem.url -%}
-            {%- if subitem_url == page.url -%}
-              {%- assign subitem_active = 'true' -%}
-            {%- endif -%}
-          {%- endfor %}
 
-          <li class="nav-item{% if subitem_active == 'true' %} menu-open{% endif %}">
-            {% if item.url == 'index.html' -%}
-              {%- assign item_url = '/' -%}
-            {%- else -%}
-              {%- assign item_url = '/' | append: item.url -%}
-            {%- endif %}
+        <!-- Dashboard -->
+        <li class="nav-item">
+          <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
 
-            <a href="{% if item.url %}{{ item.url | prepend: "/" | prepend: site.baseurl }}{% else %}#{% endif %}" class="nav-link{% if item_url == page.url %} active{% endif %}{% if subitem_active == 'true'%} active{% endif %}">
-              <i class="nav-icon {{ item.icon }}"></i>
-              <p>
-                {{ item.title }}
-                {% if item.subitems %}<i class="right fas fa-angle-left"></i>{% endif %}
-              </p>
-            </a>
+        <!-- Notes -->
+        <li class="nav-item">
+          <a href="{{ route('notes.index') }}" class="nav-link {{ request()->is('notes*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-sticky-note"></i>
+            <p>Notes</p>
+          </a>
+        </li>
 
-            {% if item.subitems -%}
-              <ul class="nav nav-treeview">
-              {% for subitem in item.subitems -%}
-                {%- assign subitem_url = '/' | append: subitem.url -%}
-                <li class="nav-item">
-                  <a href="{{ subitem.url | prepend: "/" | prepend: site.baseurl }}" class="nav-link{% if subitem_url == page.url %} active{% endif %}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>{{ subitem.title }}</p>
-                  </a>
-                </li>
-              {%- endfor %}
-              </ul>
-            {%- endif %}
-          </li>
-       {% endfor %}
+        <!-- Users -->
+        <li class="nav-item">
+          <a href="{{ route('users.index') }}" class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-users"></i>
+            <p>Users</p>
+          </a>
+        </li>
+
+        <!-- Roles -->
+        <li class="nav-item">
+          <a href="{{ route('roles.index') }}" class="nav-link {{ request()->is('roles*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-user-shield"></i>
+            <p>Roles</p>
+          </a>
+        </li>
+
+        <!-- Permissions -->
+        <li class="nav-item">
+          <a href="{{ route('permissions.index') }}" class="nav-link {{ request()->is('permissions*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-key"></i>
+            <p>Permissions</p>
+          </a>
+        </li>
+
+        <!-- Profile -->
+        <li class="nav-item">
+          <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->is('profile*') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-user"></i>
+            <p>Profile</p>
+          </a>
+        </li>
+
       </ul>
     </nav>
   </div>

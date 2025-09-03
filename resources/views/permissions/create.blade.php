@@ -7,32 +7,43 @@
 @endsection
 
 @section('content')
-    <div class="max-w-xl mx-auto sm:px-6 lg:px-8 py-8">
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-xl p-6">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Create New Permission</h2>
-
+<div class="container-fluid py-4">
+    <div class="card shadow">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Create New Permission</h3>
+        </div>
+        <div class="card-body">
             <form method="POST" action="{{ route('permissions.store') }}">
                 @csrf
 
                 <!-- Permission Name -->
-                <div class="mb-4">
-                    <label for="name" class="block font-medium text-sm text-gray-700 dark:text-gray-300">Permission Name</label>
-                    <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
-                           class="mt-1 block w-full rounded-md shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-                    @error('name')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                <div class="form-group row">
+                    <label for="name" class="col-md-2 col-form-label text-md-right">Permission Name</label>
+                    <div class="col-md-10">
+                        <input id="name" type="text"
+                               class="form-control @error('name') is-invalid @enderror"
+                               name="name" value="{{ old('name') }}"
+                               required autofocus>
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="flex items-center justify-end">
-                    <a href="{{ route('permissions.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-800 uppercase tracking-widest hover:bg-gray-300 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 mr-2">
-                        Cancel
-                    </a>
-                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
-                        Create Permission
-                    </button>
+                <div class="form-group row mb-0">
+                    <div class="col-md-10 offset-md-2">
+                        <button type="submit" class="btn btn-primary">
+                            Create Permission
+                        </button>
+                        <a href="{{ route('permissions.index') }}" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
+</div>
 @endsection

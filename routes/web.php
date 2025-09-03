@@ -4,20 +4,14 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\DashboardController;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
-// Redirect root → login page
+// Redirect root → login
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -25,12 +19,11 @@ Route::get('/', function () {
 // Authenticated and Verified Routes
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // AdminLTE Dashboard (with users, roles, permissions)
+    // Dashboard
     Route::get('/dashboard', function () {
         $users = User::all();
         $roles = Role::all();
         $permissions = Permission::all();
-
         return view('adminlte.dashboard', compact('users', 'roles', 'permissions'));
     })->name('dashboard');
 
@@ -39,30 +32,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // CRUD resources
+    // CRUD Resources
     Route::resource('notes', NoteController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('users', UserController::class);
 });
 
-/*
-|--------------------------------------------------------------------------
-| Role-Based Dashboards
-|--------------------------------------------------------------------------
-*/
-
-// Admin-only
+// Role-based dashboards
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', function () {
-        return view('admin.dashboard'); // Create resources/views/admin/dashboard.blade.php
+        return view('admin.dashboard');
     })->name('admin.dashboard');
 });
 
-// Editor-only
 Route::middleware(['auth', 'role:editor'])->group(function () {
     Route::get('/editor', function () {
-        return view('editor.dashboard'); // Create resources/views/editor/dashboard.blade.php
+        return view('editor.dashboard');
     })->name('editor.dashboard');
 });
 
